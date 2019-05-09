@@ -17,7 +17,16 @@ public enum TextFieldType {
 }
 
 public extension UITextField {
-    public func isValid(type: TextFieldType) -> Bool {
+    @IBInspectable var placeHolderColor: UIColor? {
+        get {
+            return self.placeHolderColor
+        }
+        set {
+            self.attributedPlaceholder = NSAttributedString(string:self.placeholder != nil ? self.placeholder! : "", attributes:[kCTForegroundColorAttributeName as NSAttributedStringKey: newValue!])
+        }
+    }
+    
+    func isValid(type: TextFieldType) -> Bool {
         let text = self.text ??  ""
         let isEmpty = text.count == 0 || text.isEmpty
         

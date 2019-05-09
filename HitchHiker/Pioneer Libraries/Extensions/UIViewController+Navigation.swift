@@ -10,58 +10,24 @@ import Foundation
 import UIKit
 
 
-public enum ViewControllers: String {
-    case Signup = "SignupVC"
-    case Login = "LoginVC"
-    case Posts = "PostsVC"
-    case Connections = "ConnectionsVC"
-}
-
 
 public extension UIViewController {
-    public func addChildPage(page: ViewControllers, animated: Bool) {
-        if let storyBoard = storyboard {
-            let vcToNavigateTo = storyBoard.instantiateViewController(withIdentifier: page.rawValue)
-            addChildViewController(vcToNavigateTo)
-            vcToNavigateTo.view.frame = view.frame
-            view.addSubview(vcToNavigateTo.view)
-            vcToNavigateTo.didMove(toParentViewController: self)
-        } else {
-            print("No Storyboard Found")
-        }
-    }
     
-    public func presentPage(page: ViewControllers, animated: Bool) {
-        if let storyBoard = storyboard {
-            let vcToNavigateTo = storyBoard.instantiateViewController(withIdentifier: page.rawValue)
-            present(vcToNavigateTo, animated:animated , completion: nil)
-        } else {
-            print("No Storyboard Found")
-        }
-    }
-    
-    public func navigateToPage(page: ViewControllers) -> UIViewController? {
-        if let storyBoard = storyboard {
-            let vcToNavigateTo = storyBoard.instantiateViewController(withIdentifier: page.rawValue)
-            navigationController?.pushViewController(vcToNavigateTo, animated: true)
-            return vcToNavigateTo
-        } else {
-            print("No Storyboard Found")
-            return nil
-        }
-    }
-    
-    public func popPage(animated: Bool) -> UIViewController? {
+    func popPage(animated: Bool) -> UIViewController? {
         return navigationController?.popViewController(animated: animated)
     }
     
-    public func addChildVC(vc: UIViewController, toView containerView: UIView) {
-        addChildViewController(vc)
-        let frame = CGRect(x: 0, y: 0, width: containerView.frame.width, height: containerView.frame.height)
-        print("Container Frame = \(containerView.frame)")
-        vc.view.frame = frame
-        containerView.addSubview(vc.view)
-        vc.didMove(toParentViewController: self)
+    func addChild(page: UIViewController, toView: UIView) {
+        addChildViewController(page)
+        page.view.frame = CGRect(origin: CGPoint.zero, size: toView.frame.size)
+        toView.addSubview(page.view)
+        page.didMove(toParentViewController: self)
+    }
+    
+    func removeAsChild() {
+        willMove(toParentViewController: nil)
+        view.removeFromSuperview()
+        removeFromParentViewController()
     }
 }
 

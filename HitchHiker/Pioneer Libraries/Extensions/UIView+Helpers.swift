@@ -10,29 +10,15 @@ import Foundation
 import UIKit
 
 public extension UIView {
-    public func addDefaultBackgroundGradient() {
-        let gradientLayer = CAGradientLayer()
-        backgroundColor = UIColor.white
-        gradientLayer.frame = self.bounds
-        
-        let color1 = UIColor.darkBlue.cgColor
-        let color2 = UIColor.lightBlue.cgColor
-        
-        gradientLayer.colors = [color1,color2]
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
-        gradientLayer.locations = [0.0, 1.0]
-        layer.insertSublayer(gradientLayer, at: 0)
-    }
     
-    public func addBottomBorder(thickness: CGFloat, color: UIColor) {
+    func addBottomBorder(thickness: CGFloat, color: UIColor) {
         let border = CALayer()
         border.frame = CGRect(x: 0, y: frame.height - thickness, width: frame.width, height: thickness)
         border.backgroundColor = color.cgColor
         layer.addSublayer(border)
     }
     
-    public func snapshot(of rect: CGRect? = nil) -> UIImage? {
+    func snapshot(of rect: CGRect? = nil) -> UIImage? {
         // snapshot entire view
         
         UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0)
