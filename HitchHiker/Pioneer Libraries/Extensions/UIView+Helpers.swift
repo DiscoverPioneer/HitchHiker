@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import NVActivityIndicatorView
 
 public extension UIView {
     
@@ -36,6 +37,15 @@ public extension UIView {
         let scaledRect = CGRect(x: rect.origin.x * scale, y: rect.origin.y * scale, width: rect.size.width * scale, height: rect.size.height * scale)
         guard let cgImage = image.cgImage?.cropping(to: scaledRect) else { return nil }
         return UIImage(cgImage: cgImage, scale: scale, orientation: .up)
+    }
+    
+    func showActivity() -> NVActivityIndicatorView {
+        let frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        let activityIndicator = NVActivityIndicatorView(frame: frame, type: NVActivityIndicatorType.ballGridPulse, color: UIColor.activityLoadingColor, padding: 0)
+        activityIndicator.center = center
+        addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        return activityIndicator
     }
 
 }

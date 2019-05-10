@@ -22,7 +22,7 @@ public extension UITextField {
             return self.placeHolderColor
         }
         set {
-            self.attributedPlaceholder = NSAttributedString(string:self.placeholder != nil ? self.placeholder! : "", attributes:[kCTForegroundColorAttributeName as NSAttributedStringKey: newValue!])
+            self.attributedPlaceholder = NSAttributedString(string:self.placeholder != nil ? self.placeholder! : "", attributes:[kCTForegroundColorAttributeName as NSAttributedString.Key: newValue!])
         }
     }
     
@@ -51,8 +51,8 @@ public extension UITextField {
         doneToolbar.barStyle = UIBarStyle.blackOpaque
         doneToolbar.isTranslucent = false
         doneToolbar.barTintColor = backgroundTint
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(doneButtonAction))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(doneButtonAction))
         done.tintColor = buttonTint
         doneToolbar.items = [flexSpace, done]
         if backgroundTint == .white {
@@ -79,9 +79,9 @@ extension UITextField {
     
     func useDatePicker() -> UIDatePicker {
         let datePicker: UIDatePicker = UIDatePicker()
-        datePicker.datePickerMode = UIDatePickerMode.date
+        datePicker.datePickerMode = UIDatePicker.Mode.date
         inputView = datePicker
-        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: UIControlEvents.valueChanged)
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: UIControl.Event.valueChanged)
         return datePicker
     }
     

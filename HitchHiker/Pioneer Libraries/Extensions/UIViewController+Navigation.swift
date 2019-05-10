@@ -18,16 +18,16 @@ public extension UIViewController {
     }
     
     func addChild(page: UIViewController, toView: UIView) {
-        addChildViewController(page)
+        addChild(page)
         page.view.frame = CGRect(origin: CGPoint.zero, size: toView.frame.size)
         toView.addSubview(page.view)
-        page.didMove(toParentViewController: self)
+        page.didMove(toParent: self)
     }
     
     func removeAsChild() {
-        willMove(toParentViewController: nil)
+        willMove(toParent: nil)
         view.removeFromSuperview()
-        removeFromParentViewController()
+        removeFromParent()
     }
 }
 

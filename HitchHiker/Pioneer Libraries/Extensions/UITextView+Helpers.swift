@@ -17,8 +17,8 @@ extension UITextView {
         doneToolbar.barStyle = UIBarStyle.blackOpaque
         doneToolbar.isTranslucent = false
         doneToolbar.barTintColor = backgroundTint
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(doneButtonAction))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(doneButtonAction))
         done.tintColor = buttonTint
         doneToolbar.items = [flexSpace, done]
         if backgroundTint == .white {
