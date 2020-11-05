@@ -46,13 +46,15 @@ public extension UITextField {
     
     ///Add a toolbar above the keyboard with a done button that will dismiss the keyboard. This is good for phone number keyboards
     func addDoneButtonOnKeyboard(backgroundTint: UIColor = UIColor.gray
-        , buttonTint: UIColor = UIColor.white) {
+        , buttonTint: UIColor = UIColor.white,target: Any? = self, action: Selector = #selector(doneButtonAction)) {
+                
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 329, height: 50))
-        doneToolbar.barStyle = UIBarStyle.blackOpaque
+        doneToolbar.barStyle = UIBarStyle.black
         doneToolbar.isTranslucent = false
         doneToolbar.barTintColor = backgroundTint
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(doneButtonAction))
+        let done: KeyboardBarButtonItem = KeyboardBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: target, action: action)
+        done.associatedView = self
         done.tintColor = buttonTint
         doneToolbar.items = [flexSpace, done]
         if backgroundTint == .white {
@@ -64,24 +66,40 @@ public extension UITextField {
     }
     
     @objc func doneButtonAction() {
+        if let picker = inputView as? UIPickerView {
+            if text?.returnIfFilled() == nil, let number = picker.dataSource?.pickerView(picker, numberOfRowsInComponent: 0), number > 0 {
+                picker.delegate?.pickerView?(picker, didSelectRow: 0, inComponent: 0)
+            }
+        } else if let picker = inputView as? UIDatePicker {
+            if text?.returnIfFilled() == nil {
+                picker.sendActions(for: .valueChanged)
+            }
+        }
         self.resignFirstResponder()
     }
+}
+
+class KeyboardBarButtonItem: UIBarButtonItem {
+    var associatedView: UIView?
 }
 
 //MARK - Add Picker
 
 extension UITextField {
-    func usePickerView() -> UIPickerView {
+    func usePickerView(dataSource: UIPickerViewDataSource? = nil, delegate: UIPickerViewDelegate? = nil) -> UIPickerView {
         let picker = UIPickerView()
+        picker.dataSource = dataSource
+        picker.delegate = delegate
         inputView = picker
         return picker
     }
     
-    func useDatePicker() -> UIDatePicker {
+    func useDatePicker(target: Any? = self, action: Selector = #selector(datePickerValueChanged(_:))) -> UIDatePicker {
         let datePicker: UIDatePicker = UIDatePicker()
-        datePicker.datePickerMode = UIDatePicker.Mode.date
+        datePicker.datePickerMode = UIDatePicker.Mode.dateAndTime
         inputView = datePicker
-        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: UIControl.Event.valueChanged)
+        datePicker.addTarget(target, action: action, for: UIControl.Event.valueChanged)
+
         return datePicker
     }
     

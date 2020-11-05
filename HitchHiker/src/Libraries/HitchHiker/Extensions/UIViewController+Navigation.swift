@@ -32,12 +32,16 @@ public extension UIViewController {
 }
 
 extension UIViewController {
-    class func instantiateFromMainStoryboard() -> Self? {
-        return initiateFromStoryboardHelper(name: "Main", viewControllerId: String(describing: self))
+    class func instantiateFromMainStoryboard() -> Self {
+        return initiateFromStoryboardHelper(name: "Main", viewControllerId: String(describing: self))!
     }
     
-    class func instantiateFromMainStoryboard(id: String) -> Self? {
-        return initiateFromStoryboardHelper(name: "Main", viewControllerId: id)
+    class func instantiateFromMainStoryboard(id: String) -> Self {
+        return initiateFromStoryboardHelper(name: "Main", viewControllerId: id)!
+    }
+    
+    class func instantiateFromCustomStoryboard(storyboard: String, id: String? = nil) -> Self! {
+        return initiateFromStoryboardHelper(name: storyboard, viewControllerId: String(describing: self))!
     }
     
     func showBasicAlert(title: String? = nil, message: String? = nil, dismissed: (() -> ())? = nil) {
@@ -54,7 +58,7 @@ extension UIViewController {
             alertController.addAction(action)
         }
         if cancel {
-            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
             alertController.addAction(cancelAction)
         }
         self.present(alertController, animated: true, completion: nil)
@@ -65,6 +69,10 @@ extension UIViewController {
         let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func showError(_ message: String) {
+        showAlert(title: "Error", message: message)
     }
 }
 

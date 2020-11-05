@@ -23,6 +23,24 @@ public extension Date {
         return formatter.string(from: interval)
     }
     
+    func dateAndTime() -> String {
+        return showInFormat(format: "E, MMM d h:mm a")
+    }
+    
+    func shortDateAndTime() -> String {
+        return showInFormat(format: "MM/d HH:mm")
+    }
+    
+    func simpleStringFromDate() -> String {
+        if NSCalendar.current.isDateInToday(self) {
+            return showInFormat(format: "h:mm a")
+        }
+        if NSCalendar.current.component(.year, from: self) == NSCalendar.current.component(.year, from: Date()) {
+            return showInFormat(format: "E, MMM d")
+        }
+        return showInFormat(format: "MMM d, yyyy")
+    }
+    
     func smartStringFromDate() -> String {
         let timeSinceNow = Date().timeIntervalSince(self)
         let timeSinceInMinutes = timeSinceNow / 60

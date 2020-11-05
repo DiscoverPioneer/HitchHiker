@@ -47,5 +47,27 @@ public extension UIView {
         activityIndicator.startAnimating()
         return activityIndicator
     }
+    
+    func addBasicConstraints(width: CGFloat?, height: CGFloat?) {
+          translatesAutoresizingMaskIntoConstraints = false
+          if let width = width {
+              let widthConstraint = widthAnchor.constraint(equalToConstant: width)
+              addConstraint(widthConstraint)
+          }
+          if let height = height {
+              let heightConstraint = heightAnchor.constraint(equalToConstant: height)
+              addConstraint(heightConstraint)
+          }
+          
+      }
+      
+      func line() -> UIView {
+          let line = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 1))
+          line.backgroundColor = UIColor.lightGray
+          line.translatesAutoresizingMaskIntoConstraints = false
+          line.addConstraint(NSLayoutConstraint(item: line, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 1))
+          return line
+      }
+    
 
 }
